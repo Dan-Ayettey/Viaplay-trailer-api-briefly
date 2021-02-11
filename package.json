@@ -1,0 +1,31 @@
+{
+  "name": "samplebrief",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "bunyan": "^1.8.15",
+    "chai-http": "^4.3.0",
+    "compress": "^0.99.0",
+    "compression": "^1.7.4",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "ejs": "~2.6.1",
+    "express": "~4.16.1",
+    "fetch": "^1.1.0",
+    "http-errors": "~1.6.3",
+    "jest": "^26.6.3",
+    "morgan": "~1.9.1",
+    "node-fetch": "^2.6.1",
+    "node-fetch-npm": "^2.0.4"
+  },
+  "devDependencies": {
+    "chai": "^4.3.0",
+    "dotenv": "^8.2.0",
+    "request": "^2.88.2",
+    "supertest": "^6.1.3"
+  }
+}
