@@ -24,7 +24,7 @@
  This project one sample request which is a **GET** request to the following Route: **Base_url +"/api/v1/trailers?"url=_{movie_resource_url_from_viaplay}_**
  
  ##### Request URL 
- | http://localhost:3000/api/v1/trailers?url=http://content.viaplay.se/pc-se/film|
+   http://localhost:3000/api/v1/trailers?url=http://content.viaplay.se/pc-se/film
  | http://localhost:3000/api/v1/trailers?url=https://content.viaplay.se/pc-se/film/troja-2004
  ##### Some Youtube URL 
   
