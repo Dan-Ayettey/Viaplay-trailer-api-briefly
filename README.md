@@ -1,7 +1,7 @@
 # Viaplay-trailer-api-briefly
  Viaplay trailer api
  
- # NENT Trailer Fetcher
+ # Nordic Entertainment Group  Trailer Fetcher
  
  This is a simple Nodejs project created as  test project for a backend-developer.
  To run this project you need to set up environment. 
