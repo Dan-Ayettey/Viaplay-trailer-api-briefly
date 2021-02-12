@@ -1,10 +1,11 @@
+const {fetchOne,fetchAll} =require("../protocals/request");
 const dotenv=require('dotenv')
-const fetch =require('node-fetch')
 const bunyan = require('bunyan');
 /*
  Using Bunyan is a simple and fast JSON logging library for quick performance
  */
 const log = bunyan.createLogger({name: "Sample brief api"});
+
 /*
  @dotenv.config()
  Using Dotenv is a zero-dependency module that loads environment variables from a .env
@@ -12,22 +13,7 @@ const log = bunyan.createLogger({name: "Sample brief api"});
 dotenv.config();
 
 
-/*
- @fetchAll(any)
- For performance reasons, Using  Promise to iterate promises and
-  returns a single Promise that resolves to an array of the results of the input promises.
- */
 
-const fetchAll=async(arrayOfUrls)=> {
-    return  await Promise.all(arrayOfUrls);
-}
-/*
- @fetchOne(any)
- Using fetch api for network requests Promise that result and
- manipulating parts of the HTTP pipeline
-
- */
-const fetchOne=async (url)=>await fetch(url);
  const fetchViaPlayEmbeddedBlock=async (url)=> {
     /*
      Request data  from viapaly endpoint and filter for product block for imdb data using non blocking fetchOne
@@ -44,23 +30,23 @@ const fetchOne=async (url)=>await fetch(url);
          //flat the multi dimensional array
          return [].concat.apply([], data);
      }catch (e) {
-         console.log(e)
+         log.info(e)
      }
  return []
 
 }
 
 const fetchTrailerUrls=async (iMDBData)=> {
-    /*   iterate through imdb_id data and find movies key to use for fetching data on themoviesdb api_key is needed,
+
+    /*   iterate through imdb_id data and find movies key to be use for fetching data on themoviesdb, api_key is needed,
        the .env file in the root directory should be use.
        fetchOne data  from themoviedb endpoint and filter for chunk of trailer id block for url data using non blocking fetchOne
        and in turn return chunks of data
       */
+
     const results = await fetchAll(iMDBData.map(async (find) =>
         await fetchOne(`https://api.themoviedb.org/3/find/${find}?api_key=${process.env.API_KEY}&language=en-US&external_source=imdb_id`)
             .then((response) => response.json())));
-
-
     const movieDetails = results.map((details) => JSON.parse(JSON.stringify(details, null, 2)).movie_results
         .map((trailerId) => trailerId.id));
 
