@@ -17,7 +17,7 @@ dotenv.config();
  const fetchViaPlayEmbeddedBlock=async (url)=> {
     /*
      Request data  from viapaly endpoint and filter for product block for imdb data using non blocking fetchOne
-     and in turn return chunks of data. Using lamda expression
+     and in turn return chunks of data. Using lambda expression
     */
      try{
          const data=await fetchOne(url).then((response => response.json())).
@@ -40,7 +40,7 @@ const fetchTrailerUrls=async (iMDBData)=> {
 
     /*   iterate through imdb_id data and find movies key to be use for fetching data on themoviesdb, api_key is needed,
        the .env file in the root directory should be use.
-       fetchOne data  from themoviedb endpoint and filter for chunk of trailer id block for url data using non blocking fetchOne
+       fetch data  from themoviedb endpoint and filter for chunk of trailer id block for url data using non blocking state request
        and in turn return chunks of data
       */
 
