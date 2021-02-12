@@ -1,7 +1,7 @@
 # Viaplay-trailer-api-briefly
  Viaplay trailer api
  
- # NENT Trailer Fetcher
+ # Nordic Entertainment Group  Trailer Fetcher
  
  This is a simple Nodejs project created as  test project for a backend-developer.
  To run this project you need to set up environment. 
@@ -76,6 +76,8 @@
        [download-express]: <https://www.npmjs.com/package/body-parser'>
        [download-express]: <https://www.npmjs.com/package/bunyan'>
     [download]:<https://www.npmjs.com/package/redis>
+    
+    #### third party links
     [moviedb-api]: <https://www.themoviedb.org/documentation/api>
     [download-here]: <https://getcomposer.org/download/>
  
