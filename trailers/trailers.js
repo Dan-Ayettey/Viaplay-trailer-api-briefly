@@ -1,4 +1,4 @@
-const {fetchOne,fetchAll} =require("../protocals/request");
+const {fetchOne,fetchAll} =require("../protocols/request");
 const dotenv=require('dotenv')
 const bunyan = require('bunyan');
 /*
