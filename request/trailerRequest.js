@@ -22,47 +22,60 @@ const fetchAll=async(arrayOfUrls)=> {
     return  await Promise.all(arrayOfUrls);
 }
 /*
- @trailerRequest(any)
+ @fetchOne(any)
  Using fetch api for network requests Promise that result and
  manipulating parts of the HTTP pipeline
 
  */
-const trailerRequest=async (url)=>await fetch(url);
- const viaPlayEmbeddedBlock=async (url)=> {
+const fetchOne=async (url)=>await fetch(url);
+ const fetchViaPlayEmbeddedBlock=async (url)=> {
     /*
-     Request data  from viapaly endpoint and filter for product block for imdb data using non blocking trailerRequest
+     Request data  from viapaly endpoint and filter for product block for imdb data using non blocking fetchOne
      and in turn return chunks of data. Using lamda expression
     */
-     return await trailerRequest(url).then((response => response.json())).
-     then((response)=>response._embedded['viaplay:blocks'].filter((page)=>page.pageCount !==undefined)
-                .map(productIMDB=>productIMDB._embedded['viaplay:products'].map(content=> content.content.imdb)).
-         map(imdbDetails=>imdbDetails)[0].map(imdb=> imdb )).
-     then((imdbDetails)=>imdbDetails.filter(details=>details !==undefined).
-     map( data=> JSON.parse(JSON.stringify(data))).map(imdb=>imdb.id))
-
+     try{
+         const data=await fetchOne(url).then((response => response.json())).
+         then((response)=>response._embedded['viaplay:blocks'].
+         filter((page)=>page.pageCount !==undefined)
+             .map(productIMDB=>productIMDB._embedded['viaplay:products']
+                 .map(content=> content.content.imdb).map(imdbDetails=>imdbDetails).
+                 filter((dataDetails)=> dataDetails !==undefined).map(imdb=> imdb).
+                 map( data=> JSON.parse(JSON.stringify(data))).map((imdb)=>imdb.id)))
+         //flat the multi dimensional array
+         return [].concat.apply([], data);
+     }catch (e) {
+         console.log(e)
+     }
+ return []
 
 }
-const trailerUrls=async (iMDBData)=>{
+
+const fetchTrailerUrls=async (iMDBData)=> {
     /*   iterate through imdb_id data and find movies key to use for fetching data on themoviesdb api_key is needed,
        the .env file in the root directory should be use.
-       trailerRequest data  from themoviedb endpoint and filter for chunk of trailer id block for url data using non blocking trailerRequest
+       fetchOne data  from themoviedb endpoint and filter for chunk of trailer id block for url data using non blocking fetchOne
        and in turn return chunks of data
       */
     const results = await fetchAll(iMDBData.map(async (find) =>
-        await trailerRequest(`https://api.themoviedb.org/3/find/${find}?api_key=${process.env.API_KEY}&language=en-US&external_source=imdb_id`)
+        await fetchOne(`https://api.themoviedb.org/3/find/${find}?api_key=${process.env.API_KEY}&language=en-US&external_source=imdb_id`)
             .then((response) => response.json())));
-             const movieDetails=results.map((details)=>JSON.parse(JSON.stringify(details,null,2)).movie_results
-            .map((trailerId)=>trailerId.id));
 
-            return await fetchAll(movieDetails.
-            map(async (id)=>await trailerRequest(`https://api.themoviedb.org/3/movie/${id[0]}/videos?api_key=${process.env.API_KEY}&language=en-US`)
-            .then((response=>response.json())).
-            then((results)=>'https://www.youtube.com/watch?v='+JSON.parse(JSON.stringify(results)).results[0].key))).catch((reason => log.info(reason)));
 
+    const movieDetails = results.map((details) => JSON.parse(JSON.stringify(details, null, 2)).movie_results
+        .map((trailerId) => trailerId.id));
+
+    //flatten multi dimensional array
+    const flatMoveId = [].concat.apply([], movieDetails)
+    //Fetch movies from themoviedb
+    return await fetchAll(flatMoveId.map(async (id) => await fetchOne(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${process.env.API_KEY}&language=en-US`)
+        .then((response => response.json())).then(movieResults =>movieResults.results.filter(results =>results !==undefined)))).
+    then((results)=>[].concat.apply([],results).map(data =>`https://www.youtube.com/watch?v=${data.key}`))
+        .catch((reason => log.info(reason)));
 }
+
 
 //export modules
 module.exports={
-     viaPlayEmbeddedBlock,
-     trailerUrls
+     fetchTrailerUrls,
+     fetchViaPlayEmbeddedBlock
 }
