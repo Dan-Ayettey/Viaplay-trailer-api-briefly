@@ -43,7 +43,7 @@ const fetchTrailerUrls=async (iMDBData)=> {
        fetch data  from themoviedb endpoint and filter for chunk of trailer id block for url data using non blocking state request
        and in turn return chunks of data
 
-       
+
       */
 
     const results = await fetchAll(iMDBData.map(async (find) =>
