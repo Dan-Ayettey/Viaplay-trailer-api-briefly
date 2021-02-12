@@ -21,7 +21,7 @@
  Nodejs development server started: <http://127.0.0.1:3000>
  ```
  ### Requests
- This project one sample request which is a **GET** request to the following Route: **Base_url +"/api/trailer?"url=_{movie_resource_url_from_viaplay}_**
+ This project one sample request which is a **GET** request to the following Route: **Base_url +"/api/v1/trailers?"url=_{movie_resource_url_from_viaplay}_**
  
  ##### Request URL 
  | http://localhost:3000/api/v1/trailers?url=http://content.viaplay.se/pc-se/film|
